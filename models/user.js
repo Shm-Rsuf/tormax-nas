@@ -75,7 +75,7 @@ userSchema.statics.login = async function (email, password, ipAddress) {
   if (!email || !password || !ipAddress) {
     throw Error("all fields must be filled");
   }
-  const user = await this.findOne({ email, password });
+  const user = await this.findOne({ email, ipAddress });
   if (!user) {
     throw Error("incorrect email or resticted ip-address");
   }
