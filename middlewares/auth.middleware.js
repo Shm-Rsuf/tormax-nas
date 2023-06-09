@@ -4,7 +4,7 @@ const User = require("../models/user");
 const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || authHeader.startsWith("Bearer")) {
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
       throw Error("invalid token formate");
     }
 
