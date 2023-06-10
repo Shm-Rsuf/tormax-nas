@@ -78,8 +78,69 @@ const getUser = async (req, res) => {
   }
 };
 
+//delete an user
+const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw Error("user not found");
+    }
+
+    if (userId !== req.user?._id.toString()) {
+      throw Error("unauthorized access");
+    }
+
+    const user = await User.findByIdAndDelete(userId);
+
+    if (!user) {
+      throw Error("user not found");
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
+
+//delete an user
+const updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { name } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw Error("user not found");
+    }
+
+    if (!name) {
+      throw Error("name field must be filled");
+    }
+
+    if (userId !== req.user?._id.toString()) {
+      throw Error("unauthorized access");
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: { name } },
+      { new: true }
+    );
+
+    if (!user) {
+      throw Error("user not found");
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
   getUser,
+  deleteUser,
+  updateUser,
 };
