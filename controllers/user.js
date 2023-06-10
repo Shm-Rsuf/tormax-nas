@@ -53,6 +53,19 @@ const loginUser = async (req, res) => {
   }
 };
 
+//get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (!users) {
+      throw Error("users not found");
+    }
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 //get an user
 const getUser = async (req, res) => {
   try {
@@ -140,6 +153,7 @@ const updateUser = async (req, res) => {
 module.exports = {
   signupUser,
   loginUser,
+  getAllUsers,
   getUser,
   deleteUser,
   updateUser,

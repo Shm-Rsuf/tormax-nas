@@ -5,9 +5,10 @@ const {
   getUser,
   updateUser,
   deleteUser,
-  // getAllUsers,
+  getAllUsers,
 } = require("../controllers/user");
 const authMiddleware = require("../middlewares/auth.middleware");
+const isAdmin = require("../middlewares/admin.middleware");
 
 //router
 const router = express.Router();
@@ -19,7 +20,7 @@ router.post("/signup", signupUser);
 router.post("/login", loginUser);
 
 //get all users
-// router.get("/all", authMiddleware, getAllUsers);
+router.get("/all", authMiddleware, isAdmin, getAllUsers);
 
 //get an user
 router.get("/:userId", authMiddleware, getUser);
