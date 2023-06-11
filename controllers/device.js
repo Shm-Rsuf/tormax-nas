@@ -27,3 +27,17 @@ const getDevice = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+function getClientIp(req) {
+  const ipAddress =
+    req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  return ipAddress;
+}
+
+function getOS(req) {
+  const userAgentStr = req.headers["user-agent"];
+  const userAgent = useragent.parse(userAgentStr);
+  return userAgent.os;
+}
+
+module.exports = { getDevice };
